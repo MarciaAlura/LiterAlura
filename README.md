@@ -11,6 +11,6 @@ Challenge LiterAlura - Biblioteca online
 # :hammer: Funcionalidades do projeto
 
 - `1 - Buscar livro pelo título`: Realizar a consulta diretamente na API e depois inserir o livro em no banco de dados
-- `Funcionalidade 2`: descrição da funcionalidade 2
+- `2 - Listar livros registrados`: Listar dados de todos os livros que inseridos
 - `Funcionalidade 2a`: descrição da funcionalidade 2a relacionada à funcionalidade 2
 - `Funcionalidade 3`: descrição da funcionalidade 3
