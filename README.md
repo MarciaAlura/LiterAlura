@@ -14,5 +14,5 @@ Challenge LiterAlura - Biblioteca online
 - `2 - Listar livros registrados`: Listar dados de todos os livros que inseridos
 - `3 - Lista autores`: Listar os dados de cada autor
 - `4 - Listar autores em determinado ano`: Listar autores na base de dados do ano determinado
--  `5 - Listar livros em determinado idioma`: Quatro idiomas que você pode realizar a busca. Espanhol, inglês, francês e português
--  `Funcionalidade 3`: descrição da funcionalidade 3
+- `5 - Listar livros em determinado idioma`: Quatro idiomas que você pode realizar a busca. Espanhol, inglês, francês e português
+- `0 - Sair`: Sair da aplicação
