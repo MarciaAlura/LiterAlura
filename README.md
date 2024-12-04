@@ -15,4 +15,5 @@ Challenge LiterAlura - Biblioteca online
 - `3 - Lista autores`: Listar os dados de cada autor
 - `4 - Listar autores em determinado ano`: Listar autores na base de dados do ano determinado
 - `5 - Listar livros em determinado idioma`: Quatro idiomas que você pode realizar a busca. Espanhol, inglês, francês e português
+- `6 - Listar os 10 livros mais baixados`: Listar os 10 livros mais baixados no banco de dados
 - `0 - Sair`: Sair da aplicação

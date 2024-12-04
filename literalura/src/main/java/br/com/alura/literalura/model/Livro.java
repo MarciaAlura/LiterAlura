@@ -2,9 +2,6 @@ package br.com.alura.literalura.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "livros")
 public class Livro {
@@ -39,6 +36,7 @@ public class Livro {
 
         return livro;
     }
+
 
     public Long getId() {
         return id;
