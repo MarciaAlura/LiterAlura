@@ -1,38 +1,43 @@
 package br.com.alura.literalura.principal;
 
 
-import br.com.alura.literalura.model.DadosLivro;
 import br.com.alura.literalura.model.Livro;
 import br.com.alura.literalura.repository.AutoresRepository;
 import br.com.alura.literalura.repository.LivrosRepository;
-import br.com.alura.literalura.service.ConsumoAPI;
-import br.com.alura.literalura.service.ConverteDados;
-import br.com.alura.literalura.service.LivroAPIService;
+import br.com.alura.literalura.service.BookApiService;
+import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.azure.ai.openai.models.OnYourDataAuthenticationType.API_KEY;
-
-
+@Component
 public class Principal {
 
-
-    private final AutoresRepository repositorio;
-    private final LivrosRepository repositorioLivro;
-    private Scanner leitura = new Scanner(System.in);
+    private final LivrosRepository livroRepository;
+    private final AutoresRepository autorRepository;
+    private final BookApiService bookApiService;
+    private final Scanner leitura = new Scanner(System.in);
+    private final List<String> possibleQueryLanguages;
 
     private final String ENDERECO = "https://gutendex.com/books";
     private String complemento_titulo_autores = "?search=";
     private String complemento_idioma = "?languages=";
 
-    private ConsumoAPI consumoAPI = new ConsumoAPI();
-    private ConverteDados conversor = new ConverteDados();
+      public Principal(BookApiService bookApiService,
+                     LivrosRepository livroRepository,
+                     AutoresRepository autorRepository
+                     ) {
 
-    public Principal(AutoresRepository repositorio, LivrosRepository repositorioLivro) {
-        this.repositorio = repositorio;
-        this.repositorioLivro = repositorioLivro;
+        this.bookApiService = bookApiService;
+        this.livroRepository = livroRepository;
+        this.autorRepository = autorRepository;
+
+        possibleQueryLanguages = new ArrayList<>();
+        possibleQueryLanguages.add("pt");
+        possibleQueryLanguages.add("en");
+        possibleQueryLanguages.add("es");
+        possibleQueryLanguages.add("fr");
     }
 
     public void exibeMenu(){
@@ -66,7 +71,7 @@ public class Principal {
                     System.out.println("Saindo...");
                     break;
                 default:
-                    System.out.println("Opção inválida");
+                    System.out.println("\n[!] -Opção inválida!!!");
             }
         }
 
@@ -74,25 +79,21 @@ public class Principal {
 
     private void buscarLivropeloTitulo() {
 
-        System.out.println("\n Escolha o titulo do livro: ");
-        var nomeLivro = leitura.nextLine();
+        System.out.println("\nBUSCA POR TÍTULO ********************************************");
+        System.out.print("Digite o título do livro: ");
+        var titulo = leitura.nextLine();
 
-        var dadosLivro = LivroAPIService
-                .procuraLivro(nomeLivro)
-                .stream()
-                .findFirst();
+        System.out.println("\nPesquisando...\n");
+        var bookData = bookApiService.search(titulo).stream().findFirst();
 
-        System.out.println(dadosLivro);
-
-        if(dadosLivro.isEmpty()){
-            System.out.println("Nenhum livro encontrado");
-        } else{
-            var livro = Livro.fromBookData(dadosLivro.get());
-            repositorio.save(livro.getArtista());
-            repositorioLivro.save(livro);
+        if (bookData.isEmpty()) {
+            System.out.println("[i] - Nenhum livro encontrado\n");
+        } else {
+            var livro = Livro.fromBookData(bookData.get());
+            autorRepository.save(livro.getAutor());
+            livroRepository.save(livro);
             System.out.println(livro + "\n");
         }
-
     }
 
 }

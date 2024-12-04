@@ -9,35 +9,32 @@ import java.util.List;
 @Table(name = "livros")
 public class Livro {
 
-            @Id
-            @GeneratedValue(strategy = GenerationType.IDENTITY)
-            private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-            private String idioma;
+    private String titulo;
+    private String idioma;
+    private Integer downloads;
 
-            private String titulo;
+    @ManyToOne
+    private Autor autor;
 
-            @ManyToOne
-            private Artista artista;
+    public Livro() {
+    }
 
-            public Livro(){}
-
-            public Livro(DadosLivro dadosLivro){
-                this.titulo = dadosLivro.titulo();
-
-            }
-
-    public static Livro fromBookData(DadosLivro dadosLivro) {
+    public static Livro fromBookData(BookData bookData) {
         var livro = new Livro();
-        livro.id = dadosLivro.id();
-        livro.titulo = dadosLivro.titulo();
+        livro.id = Long.valueOf(bookData.id());
+        livro.downloads = bookData.downloads();
+        livro.titulo = bookData.titulo();
 
-        if (!dadosLivro.idiomas().isEmpty()) {
-            livro.idioma = dadosLivro.idiomas().get(0);
+        if (!bookData.idiomas().isEmpty()) {
+            livro.idioma = bookData.idiomas().get(0);
         }
 
-        if (!dadosLivro.autores().isEmpty()) {
-            livro.artista = Artista.fromPersonData(dadosLivro.autores().get(0));
+        if (!bookData.autores().isEmpty()) {
+            livro.autor = Autor.fromPersonData(bookData.autores().get(0));
         }
 
         return livro;
@@ -59,14 +56,6 @@ public class Livro {
         this.titulo = titulo;
     }
 
-    public Artista getArtista() {
-        return artista;
-    }
-
-    public void setArtista(Artista artista) {
-        this.artista = artista;
-    }
-
     public String getIdioma() {
         return idioma;
     }
@@ -75,11 +64,27 @@ public class Livro {
         this.idioma = idioma;
     }
 
+    public Integer getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(Integer downloads) {
+        this.downloads = downloads;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
     @Override
     public String toString() {
         return "Titulo: " + titulo
-                + "\nAutor(a): " + (artista == null ? "-" : artista.toString())
-                + "\nIdioma: " + (idioma == null ? "-" : idioma);
-
+                + "\nAutor(a): " + (autor == null ? "-" : autor.toString())
+                + "\nIdioma: " + (idioma == null ? "-" : idioma)
+                + "\nNúmero de downloads: " + downloads;
     }
 }
